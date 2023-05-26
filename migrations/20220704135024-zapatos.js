@@ -13,6 +13,30 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
+      estilo: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      caracteristicas: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      precio_costo: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      precio_venta: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      precio_minimo: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      precio_mayorista: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
       estado: {
         type: Sequelize.INTEGER,
         allowNull: false

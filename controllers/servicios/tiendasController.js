@@ -8,8 +8,8 @@ module.exports = {
     create(req, res) {
         let form = req.body.form
         const datos = {
-            nombre: form.nombre,
-            ubicacion: form.ubicacion,
+            nombre: form.name,
+            direccion: form.direccion,
             estado: 1
         };
 
@@ -82,8 +82,8 @@ module.exports = {
         let form = req.body.form
         Tienda.update(
             { 
-                nombre: form.nombre,
-                ubicacion: form.ubicacion
+                nombre: form.name,
+                direccion: form.direccion
             },
             { where: { 
                 id: form.id 

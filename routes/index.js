@@ -21,7 +21,7 @@ const userController = require('../controllers/empleados/usuarioController');
 const userTypeController = require('../controllers/empleados/tipoUsuarioController');
 
 //CARPETA DE SERVICIOS
-const serviciosController = require('../controllers/servicios/serviciosController')
+const tallasController = require('../controllers/servicios/tallasController')
 const tiendasController = require('../controllers/servicios/tiendasController')
 const zapatosController = require('../controllers/servicios/zapatosController')
 
@@ -48,14 +48,14 @@ module.exports = (app) => {
     router.get('/user/getSearch', userController.getSearch);
 
     //CARPETA DE SERVICIOS
-    //servicios
-    router.get('/servicios/list', serviciosController.list);
-    router.post('/servicios/create', serviciosController.create);
-    router.put('/servicios/update', serviciosController.update);
-    router.put('/servicios/activate', serviciosController.activate);
-    router.put('/servicios/deactivate', serviciosController.deactivate);
-    router.get('/servicios/get', serviciosController.get);
-    router.get('/servicios/getSelect', serviciosController.getSearch);
+    //tallas
+    router.get('/tallas/list', tallasController.list);
+    router.post('/tallas/create', tallasController.create);
+    router.put('/tallas/update', tallasController.update);
+    router.put('/tallas/activate', tallasController.activate);
+    router.put('/tallas/deactivate', tallasController.deactivate);
+    router.get('/tallas/get', tallasController.get);
+    router.get('/tallas/getSelect', tallasController.getSearch);
 
     //tiendas
     router.get('/tiendas/list', tiendasController.list);

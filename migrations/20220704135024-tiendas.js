@@ -13,7 +13,7 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
-      ubicacion: {
+      direccion: {
         type: Sequelize.STRING,
         allowNull: false
       },

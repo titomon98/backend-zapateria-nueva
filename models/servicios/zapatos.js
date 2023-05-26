@@ -12,6 +12,30 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     },
+    estilo: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    caracteristicas: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    precio_costo: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    precio_venta: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    precio_minimo: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    precio_mayorista: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
     estado: {
       type: DataTypes.INTEGER,
       allowNull: false

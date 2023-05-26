@@ -8,7 +8,13 @@ module.exports = {
     create(req, res) {
         let form = req.body.form
         const datos = {
-            nombre: form.nombre,
+            nombre: form.name,
+            estilo: form.estilo,
+            caracteristicas: form.caracteristicas,
+            precio_costo: form.precio_costo,
+            precio_venta: form.precio_venta,
+            precio_minimo: form.precio_minimo,
+            precio_mayorista: form.precio_mayorista,
             estado: 1
         };
 
@@ -81,7 +87,13 @@ module.exports = {
         let form = req.body.form
         Zapato.update(
             { 
-                nombre: form.nombre
+                nombre: form.name,
+                estilo: form.estilo,
+                caracteristicas: form.caracteristicas,
+                precio_costo: form.precio_costo,
+                precio_venta: form.precio_venta,
+                precio_minimo: form.precio_minimo,
+                precio_mayorista: form.precio_mayorista,
             },
             { where: { 
                 id: form.id 

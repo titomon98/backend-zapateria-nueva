@@ -4,10 +4,10 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class servicio extends Model {
+  class talla extends Model {
     
   };
-  servicio.init({
+  talla.init({
     nombre: {
       type: DataTypes.STRING,
       allowNull: false
@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
     },
   }, {
     sequelize,
-    modelName: 'servicios',
+    modelName: 'tallas',
   });
-  return servicio;
+  return talla;
 };

@@ -32,27 +32,7 @@ module.exports = {
       createdAt: new Date(),
       updatedAt: new Date()
     },{
-      nombre: 'Recepción',
-      estado: 1,
-      createdAt: new Date(),
-      updatedAt: new Date()
-    },{
       nombre: 'Caja',
-      estado: 1,
-      createdAt: new Date(),
-      updatedAt: new Date()
-    },{
-      nombre: 'Finanzas',
-      estado: 1,
-      createdAt: new Date(),
-      updatedAt: new Date()
-    },{
-      nombre: 'Laboratorio',
-      estado: 1,
-      createdAt: new Date(),
-      updatedAt: new Date()
-    },{
-      nombre: 'Dr. Gálvez',
       estado: 1,
       createdAt: new Date(),
       updatedAt: new Date()

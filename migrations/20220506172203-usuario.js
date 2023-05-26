@@ -51,41 +51,17 @@ module.exports = {
       },
     });
     await queryInterface.bulkInsert('usuarios', [{
-      user: 'HugoGalvez',
-      password: '$2a$10$2NOuyqoq/FiNsw4veVo7iuyQ71oCKVigaN653Ijwho/AYO.zKt4DS',
-      nombre: 'Hugo',
-      apellidos: 'Galvez',
+      user: 'Zapateria',
+      password: '$2a$10$LcjUIbHBczz1//t7fqC98OFAyK.c2EE4bUcQ4BrulqJ.ItEXk82Lq',
+      nombre: 'Zapateria',
+      apellidos: 'El Centro',
       telefono: '5000000',
       correo: null,
       estado: 1,
       createdAt: new Date(),
       updatedAt: new Date(),
       id_tipo_usuario: 1,
-    },
-    {
-      user: 'AllanLopez',
-      password: '$2a$10$2NOuyqoq/FiNsw4veVo7iuyQ71oCKVigaN653Ijwho/AYO.zKt4DS',
-      nombre: 'Allan',
-      apellidos: 'Lopez',
-      telefono: '5000000',
-      correo: null,
-      estado: 1,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      id_tipo_usuario: 1,
-    },
-    {
-      user: 'RocioGonzalez',
-      password: '$2a$10$2NOuyqoq/FiNsw4veVo7iuyQ71oCKVigaN653Ijwho/AYO.zKt4DS',
-      nombre: 'Rocio',
-      apellidos: 'Gonzalez',
-      telefono: '5000000',
-      correo: null,
-      estado: 1,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      id_tipo_usuario: 1,
-    },]);
+    }]);
   },
 
   down: async (queryInterface, Sequelize) => {
