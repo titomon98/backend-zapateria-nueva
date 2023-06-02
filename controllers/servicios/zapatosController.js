@@ -2,20 +2,25 @@
 const Sequelize     = require('sequelize');
 const db = require("../../models");
 const Zapato = db.zapatos;
+const Colores = db.colores;
+const Clasificacion = db.clasificaciones;
+const Marcas = db.marcas;
 const Op = db.Sequelize.Op;
 
 module.exports = {
     create(req, res) {
         let form = req.body.form
         const datos = {
-            nombre: form.name,
             estilo: form.estilo,
             caracteristicas: form.caracteristicas,
             precio_costo: form.precio_costo,
             precio_venta: form.precio_venta,
             precio_minimo: form.precio_minimo,
             precio_mayorista: form.precio_mayorista,
-            estado: 1
+            estado: 1,
+            id_color: form.color.id,
+            id_marca: form.marca.id,
+            id_clasificacion: form.clasificacion.id
         };
 
         Zapato.create(datos)
@@ -59,7 +64,18 @@ module.exports = {
 
         var condition = busqueda ? { [Op.or]: [{ nombre: { [Op.like]: `%${busqueda}%` } }] } : null ;
 
-        Zapato.findAndCountAll({ where: condition,order:[[`${criterio}`,`${order}`]],limit,offset})
+        Zapato.findAndCountAll({ 
+            include: [
+            {
+                model: Colores,
+            },
+            {
+                model: Clasificacion,
+            },
+            {
+                model: Marcas,
+            }
+        ],where: condition,order:[[`${criterio}`,`${order}`]],limit,offset})
         .then(data => {
 
         console.log('data: '+JSON.stringify(data))

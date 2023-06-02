@@ -18,10 +18,6 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   zapato.init({
-    nombre: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
     estilo: {
       type: DataTypes.STRING,
       allowNull: false
