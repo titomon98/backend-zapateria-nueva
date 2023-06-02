@@ -48,7 +48,28 @@ module.exports = {
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
-      }
+      },
+      id_color: {
+        type: Sequelize.INTEGER,
+        references: {
+            model: 'colores',
+            key: 'id'
+        }
+      },
+      id_marca: {
+        type: Sequelize.INTEGER,
+        references: {
+            model: 'marcas',
+            key: 'id'
+        }
+      },
+      id_clasificacion: {
+        type: Sequelize.INTEGER,
+        references: {
+            model: 'clasificaciones',
+            key: 'id'
+        }
+      },
     });
   },
   down: async (queryInterface, Sequelize) => {
