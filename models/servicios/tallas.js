@@ -5,20 +5,30 @@ const {
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class talla extends Model {
-    
+    static associate(models) {
+      talla.belongsTo(models.zapatos, {
+        foreignKey: "id_zapato",
+      });
+    }
   };
   talla.init({
-    nombre: {
+    talla: {
       type: DataTypes.STRING,
       allowNull: false
     },
-    precio: {
+    cantidad: {
         type: DataTypes.STRING,
         allowNull: false
+      },
+      codigo: {
+        type: DataTypes.STRING
       },
     estado: {
       type: DataTypes.INTEGER,
       allowNull: false
+    },
+    id_zapato: {
+      type: DataTypes.INTEGER
     },
   }, {
     sequelize,

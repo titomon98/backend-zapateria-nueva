@@ -1,26 +1,35 @@
 'use strict'
 const Sequelize     = require('sequelize');
 const db = require("../../models");
-const Servicio = db.servicios;
+const Tallas = db.tallas;
+const Zapato = db.zapatos;
 const Op = db.Sequelize.Op;
 
 module.exports = {
     create(req, res) {
         let form = req.body.form
-        const datos = {
-            nombre: form.name,
-            precio: form.precio,
-            estado: 1
-        };
-
-        Servicio.create(datos)
-        .then(tipo => {
-            res.send(tipo);
-        })
-        .catch(error => {
-            console.log(error)
-            return res.status(400).json({ msg: 'Ha ocurrido un error, por favor intente más tarde' });
-        });
+        let corridas = req.body.corridas
+        let cantidad = corridas.length
+        
+        for (let i = 0; i < cantidad; i++) {
+            let datos = {
+                talla: corridas[i].talla,
+                cantidad: corridas[i].cantidad,
+                codigo: 'PENDIENTE',
+                estado: 1,
+                id_zapato: form.id,
+                id_tienda: form.tienda.id
+            }
+            Tallas.create(datos)
+            .then(tipo => {
+                res.send(tipo);
+            })
+            .catch(error => {
+                console.log(error)
+                return res.status(400).json({ msg: 'Ha ocurrido un error, por favor intente más tarde' });
+            });
+        }
+        
                     
     },
 
@@ -54,7 +63,11 @@ module.exports = {
 
         var condition = busqueda ? { [Op.or]: [{ nombre: { [Op.like]: `%${busqueda}%` } }] } : null ;
 
-        Servicio.findAndCountAll({ where: condition,order:[[`${criterio}`,`${order}`]],limit,offset})
+        Tallas.findAndCountAll({ include: [
+            {
+                model: Zapato,
+            }
+        ], where: condition,order:[[`${criterio}`,`${order}`]],limit,offset})
         .then(data => {
 
         console.log('data: '+JSON.stringify(data))
@@ -73,14 +86,14 @@ module.exports = {
     find (req, res) {
         const id = req.params.id;
 
-        return Servicio.findByPk(id)
+        return Tallas.findByPk(id)
         .then(banco => res.status(200).send(banco))
         .catch(error => res.status(400).send(error))
     },
 
     update (req, res) {
         let form = req.body.form
-        Servicio.update(
+        Tallas.update(
             { 
                 nombre: form.name,
                 precio: form.precio
@@ -97,7 +110,7 @@ module.exports = {
     },
 
     activate (req, res) {
-        Servicio.update(
+        Tallas.update(
             { estado: 1 },
             { where: { 
                 id: req.body.id 
@@ -111,7 +124,7 @@ module.exports = {
     },
 
     deactivate (req, res) {
-        Servicio.update(
+        Tallas.update(
             { estado: 0 },
             { where: { 
                 id: req.body.id 
@@ -124,7 +137,7 @@ module.exports = {
         });
     },
     get (req, res) {
-        Servicio.findAll({attributes: ['id', 'nombre']})
+        Tallas.findAll({attributes: ['id', 'nombre']})
         .then(data => {
             res.send(data);
         })
@@ -136,7 +149,7 @@ module.exports = {
     getSearch (req, res) {
         var busqueda = req.query.search;
         var condition = busqueda?{ [Op.or]:[ {nombre: { [Op.like]: `%${busqueda}%` }}],[Op.and]:[{estado:1}] } : {estado:1} ;
-        Servicio.findAll({
+        Tallas.findAll({
             where: condition})
         .then(data => {
             res.send(data);
