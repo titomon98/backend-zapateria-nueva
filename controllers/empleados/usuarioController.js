@@ -204,7 +204,7 @@ module.exports = {
     },
 
     getSearch (req, res) {
-        Usuario.findAll({attributes: ['id', 'nombre']})
+        Usuario.findAll({attributes: ['id', 'nombre', 'apellidos']})
         .then(data => {
             res.send(data);
         })

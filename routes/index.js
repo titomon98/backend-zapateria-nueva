@@ -20,13 +20,17 @@ const detalle_permisosController = require('../controllers/empleados/detalle_per
 const userController = require('../controllers/empleados/usuarioController');
 const userTypeController = require('../controllers/empleados/tipoUsuarioController');
 
+//CARPETA DE TRASLADOS
+const trasladosController = require('../controllers/traslados/trasladosController')
+
 //CARPETA DE SERVICIOS
 const clasificacionesController = require('../controllers/servicios/clasificacionesController')
 const coloresController = require('../controllers/servicios/coloresController')
 const marcasController = require('../controllers/servicios/marcasController')
 const tallasController = require('../controllers/servicios/tallasController')
 const tiendasController = require('../controllers/servicios/tiendasController')
-const zapatosController = require('../controllers/servicios/zapatosController')
+const zapatosController = require('../controllers/servicios/zapatosController');
+const usuarioController = require('../controllers/empleados/usuarioController');
 
 //RUTAS
 
@@ -96,6 +100,15 @@ module.exports = (app) => {
     router.get('/tiendas/get', tiendasController.get);
     router.get('/tiendas/getSelect', tiendasController.getSearch);
 
+    //traslados
+    router.get('/traslados/list', trasladosController.list);
+    router.post('/traslados/create', trasladosController.create);
+    router.put('/traslados/update', trasladosController.update);
+    router.put('/traslados/ingreso', trasladosController.ingreso);
+    router.put('/traslados/activate', trasladosController.activate);
+    router.put('/traslados/deactivate', trasladosController.deactivate);
+    router.get('/traslados/getSelect', trasladosController.getSearch);
+
     //zapatos
     router.get('/zapatos/list', zapatosController.list);
     router.post('/zapatos/create', zapatosController.create);
@@ -110,6 +123,7 @@ module.exports = (app) => {
     router.post('/refresh', authController.refresh);
     router.post('/logout', authController.logout);
     router.post('/autenticar', auth, authController.autenticar);
+    router.get('/usuarios/getSelect', usuarioController.getSearch);
 
     app.use('/', router);
 };
