@@ -9,6 +9,9 @@ module.exports = (sequelize, DataTypes) => {
       talla.belongsTo(models.zapatos, {
         foreignKey: "id_zapato",
       });
+      talla.belongsTo(models.tiendas, {
+        foreignKey: "id_tienda",
+      })
     }
   };
   talla.init({
@@ -28,6 +31,9 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     id_zapato: {
+      type: DataTypes.INTEGER
+    },
+    id_tienda: {
       type: DataTypes.INTEGER
     },
   }, {

@@ -32,6 +32,9 @@ const tiendasController = require('../controllers/servicios/tiendasController')
 const zapatosController = require('../controllers/servicios/zapatosController');
 const usuarioController = require('../controllers/empleados/usuarioController');
 
+//CARPETA DE DATA
+const reportesController = require('../controllers/data/reportesController')
+
 //RUTAS
 
 module.exports = (app) => {
@@ -117,6 +120,10 @@ module.exports = (app) => {
     router.put('/zapatos/deactivate', zapatosController.deactivate);
     router.get('/zapatos/get', zapatosController.get);
     router.get('/zapatos/getSelect', zapatosController.getSearch);
+
+    //CARPETA DE DATA
+    //reportes
+    router.get('/reporte/tallas', reportesController.getTallas);
 
     //AUTH
     router.post('/login', authController.login);
