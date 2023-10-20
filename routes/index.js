@@ -15,6 +15,11 @@ const upload = multer({storage:storage})
 const authController = require('../controllers/authController');
 
 //FAVOR DE DEJAR ORGANIZADO POR CARPETAS EN ORDEN ALFABETICO
+//CARPETA DE CLIENTES
+const clienteController = require('../controllers/clientes/clienteController')
+const movimientosController = require('../controllers/clientes/movimientosController')
+const tipoClienteController = require('../controllers/clientes/tipoClienteController')
+
 //CARPETA DE EMPLEADOS
 const detalle_permisosController = require('../controllers/empleados/detalle_permisosController');
 const userController = require('../controllers/empleados/usuarioController');
@@ -40,6 +45,31 @@ const reportesController = require('../controllers/data/reportesController')
 module.exports = (app) => {
 
     //FAVOR DE DEJAR ORGANIZADO POR CARPETAS EN ORDEN ALFABETICO
+
+    //CARPETA DE CLIENTES
+    //clientes
+    router.get('/clientes/list', clienteController.list);
+    router.post('/clientes/create', clienteController.create);
+    router.put('/clientes/update', clienteController.update);
+    router.put('/clientes/activate', clienteController.activate);
+    router.put('/clientes/deactivate', clienteController.deactivate);
+    router.get('/clientes/getSearch', clienteController.getSearch);
+
+    //movimientos
+    router.get('/movimientos/list', movimientosController.list);
+    router.post('/movimientos/create', movimientosController.create);
+    router.put('/movimientos/update', movimientosController.update);
+    router.put('/movimientos/activate', movimientosController.activate);
+    router.put('/movimientos/deactivate', movimientosController.deactivate);
+    router.get('/movimientos/getSearch', movimientosController.getSearch);
+
+    //tipo_clientes
+    router.get('/tipo_clientes/list', tipoClienteController.list);
+    router.post('/tipo_clientes/create', tipoClienteController.create);
+    router.put('/tipo_clientes/update', tipoClienteController.update);
+    router.put('/tipo_clientes/activate', tipoClienteController.activate);
+    router.put('/tipo_clientes/deactivate', tipoClienteController.deactivate);
+    router.get('/tipo_clientes/getSearch', tipoClienteController.getSearch);
 
     //CARPETA DE EMPLEADOS
     //detalle_permisos
