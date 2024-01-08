@@ -25,6 +25,9 @@ const detalle_permisosController = require('../controllers/empleados/detalle_per
 const userController = require('../controllers/empleados/usuarioController');
 const userTypeController = require('../controllers/empleados/tipoUsuarioController');
 
+//CARPETA DE TRANSACCIONES
+const ventasController = require('../controllers/transacciones/ventasController')
+
 //CARPETA DE TRASLADOS
 const trasladosController = require('../controllers/traslados/trasladosController')
 
@@ -53,7 +56,7 @@ module.exports = (app) => {
     router.put('/clientes/update', clienteController.update);
     router.put('/clientes/activate', clienteController.activate);
     router.put('/clientes/deactivate', clienteController.deactivate);
-    router.get('/clientes/getSearch', clienteController.getSearch);
+    router.get('/clientes/getSelect', clienteController.getSearch);
 
     //movimientos
     router.get('/movimientos/list', movimientosController.list);
@@ -86,6 +89,14 @@ module.exports = (app) => {
     router.put('/user/activate', userController.activate);
     router.put('/user/deactivate', userController.deactivate);
     router.get('/user/getSearch', userController.getSearch);
+
+    //CARPETA DE TRANSACCIONES
+    //ventas
+    router.get('/ventas/list', ventasController.list);
+    router.post('/ventas/create', ventasController.create);
+    router.put('/ventas/activate', ventasController.activate);
+    router.put('/ventas/deactivate', ventasController.deactivate);
+    router.get('/ventas/get', ventasController.get);
 
     //CARPETA DE SERVICIOS
     //clasificaciones

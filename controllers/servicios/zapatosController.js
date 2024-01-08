@@ -5,6 +5,8 @@ const Zapato = db.zapatos;
 const Colores = db.colores;
 const Clasificacion = db.clasificaciones;
 const Marcas = db.marcas;
+const Tallas = db.tallas;
+const Tiendas = db.tiendas;
 const Op = db.Sequelize.Op;
 
 module.exports = {
@@ -150,7 +152,21 @@ module.exports = {
         });
     },
     get (req, res) {
-        Zapato.findAll({attributes: ['id', 'nombre']})
+        Zapato.findAll({
+            include: [
+                {
+                    model: Colores,
+                },
+                {
+                    model: Clasificacion,
+                },
+                {
+                    model: Marcas,
+                }
+            ],
+            limit: 10,
+            order: [['id', 'DESC']]
+        })
         .then(data => {
             res.send(data);
         })
@@ -161,16 +177,79 @@ module.exports = {
     },
     getSearch (req, res) {
         var busqueda = req.query.search;
-        var condition = busqueda?{ [Op.or]:[ {nombre: { [Op.like]: `%${busqueda}%` }}],[Op.and]:[{estado:1}] } : {estado:1} ;
-        Zapato.findAll({
-            where: condition})
-        .then(data => {
-            res.send(data);
-        })
-        .catch(error => {
-            console.log(error)
-            return res.status(400).json({ msg: 'Ha ocurrido un error, por favor intente más tarde' });
-        });
+        var tienda = req.query.tienda
+        if (tienda === 0) {
+            Tallas.findAll({
+                include: [
+                    {
+                        model: Zapato,
+                        where: {
+                            estilo: {
+                                [Op.like]: `%${busqueda}%`
+                            }, 
+                            estado: 1
+                        },
+                        include: [
+                            {
+                                model: Colores,
+                            },
+                            {
+                                model: Clasificacion,
+                            },
+                            {
+                                model: Marcas,
+                            }
+                        ]
+                    },
+                    {
+                        model: Tiendas,
+                    },
+                ],
+            })
+            .then(data => {
+                res.send(data);
+            })
+            .catch(error => {
+                console.log(error)
+                return res.status(400).json({ msg: 'Ha ocurrido un error, por favor intente más tarde' });
+            });
+        } else {
+            Tallas.findAll({
+                include: [
+                    {
+                        model: Zapato,
+                        where: {
+                            estilo: {
+                                [Op.like]: `%${busqueda}%`
+                            }, 
+                            estado: 1
+                        },
+                        include: [
+                            {
+                                model: Colores,
+                            },
+                            {
+                                model: Clasificacion,
+                            },
+                            {
+                                model: Marcas,
+                            }
+                        ]
+                    },
+                    {
+                        model: Tiendas,
+                    },
+                ],
+            })
+            .then(data => {
+                res.send(data);
+            })
+            .catch(error => {
+                console.log(error)
+                return res.status(400).json({ msg: 'Ha ocurrido un error, por favor intente más tarde' });
+            });
+        }
+        
     }
 };
 

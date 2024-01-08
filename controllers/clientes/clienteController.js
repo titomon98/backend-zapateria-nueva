@@ -7,7 +7,6 @@ const Op = db.Sequelize.Op;
 
 module.exports = {
     create(req, res) {
-        console.log(req.body.form)
         let form = req.body.form
         const datos = {
             nombre: form.name,

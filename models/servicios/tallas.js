@@ -12,6 +12,9 @@ module.exports = (sequelize, DataTypes) => {
       talla.belongsTo(models.tiendas, {
         foreignKey: "id_tienda",
       })
+      talla.hasMany(models.inventarios, {
+        foreignKey: "id_tienda",
+      })
     }
   };
   talla.init({

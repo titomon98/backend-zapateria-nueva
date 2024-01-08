@@ -2,34 +2,35 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('usuarios', {
+    await queryInterface.createTable('ventas', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      user: {
+      fecha: {
+        type: Sequelize.DATE,
+        allowNull: false
+      },
+      total: {
         type: Sequelize.STRING,
         allowNull: false
       },
-      password: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-      nombre: {
+      referencia_factura: {
         type: Sequelize.STRING,
       },
-      apellidos: {
+      numero: {
         type: Sequelize.STRING,
       },
-      telefono: {
-        type: Sequelize.STRING,
-      },
-      correo: {
+      tipo_cobro: {
         type: Sequelize.STRING,
       },
       estado: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+      },
+      estado_cobro:{
         type: Sequelize.INTEGER,
         allowNull: false
       },
@@ -41,38 +42,28 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       },
-      id_tipo_usuario: {
+      id_cliente: {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: {
-            model: 'tipo_usuarios',
+            model: 'clientes',
             key: 'id'
         }
       },
-      id_tienda: {
+      id_usuario: {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: {
-            model: 'tiendas',
+            model: 'usuarios',
             key: 'id'
         }
+      },
+      direccion: {
+        type: Sequelize.STRING,
       },
     });
-    await queryInterface.bulkInsert('usuarios', [{
-      user: 'Zapateria',
-      password: '$2a$10$LcjUIbHBczz1//t7fqC98OFAyK.c2EE4bUcQ4BrulqJ.ItEXk82Lq',
-      nombre: 'Zapateria',
-      apellidos: 'El Centro',
-      telefono: '5000000',
-      correo: null,
-      estado: 1,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      id_tipo_usuario: 1,
-    }]);
   },
-
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('usuarios');
+    await queryInterface.dropTable('ventas');
   }
 };

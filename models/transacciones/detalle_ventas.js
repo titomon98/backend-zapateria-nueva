@@ -4,52 +4,44 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class usuario extends Model {
+  class detalle_venta extends Model {
     static associate(models) {
-      usuario.belongsTo(models.tipo_usuarios, {
-        foreignKey: "id_tipo_usuario",
+      detalle_venta.belongsTo(models.tallas, {
+        foreignKey: "id_talla",
       });
-      usuario.belongsTo(models.tiendas, {
-        foreignKey: "id_tienda",
+      detalle_venta.belongsTo(models.ventas, {
+        foreignKey: "id_venta",
       });
     }
   };
-  usuario.init({
-    user: {
+  detalle_venta.init({
+    cantidad: {
       type: DataTypes.STRING,
       allowNull: false
     },
-    password: {
+    descripcion: {
       type: DataTypes.STRING,
       allowNull: false
     },
-    nombre: {
+    subtotal: {
       type: DataTypes.STRING,
-    },
-    apellidos: {
-      type: DataTypes.STRING,
-    },
-    telefono: {
-      type: DataTypes.STRING,
-    },
-    correo: {
-      type: DataTypes.STRING,
+      allowNull: false
     },
     estado: {
       type: DataTypes.INTEGER,
       allowNull: false
     },
-    id_tipo_usuario: {
+    id_talla: {
       type: DataTypes.INTEGER,
       allowNull: false
     },
-    id_tienda: {
+    id_venta: {
       type: DataTypes.INTEGER,
       allowNull: false
     },
   }, {
     sequelize,
-    modelName: 'usuarios',
+    modelName: 'detalle_ventas',
   });
-  return usuario;
+  return detalle_venta;
 };

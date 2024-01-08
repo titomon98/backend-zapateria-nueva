@@ -2,32 +2,30 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('usuarios', {
+    await queryInterface.createTable('inventarios', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      user: {
+      cantidad: {
         type: Sequelize.STRING,
         allowNull: false
       },
-      password: {
+      existencia_previa: {
         type: Sequelize.STRING,
         allowNull: false
       },
-      nombre: {
+      precio_costo: {
         type: Sequelize.STRING,
       },
-      apellidos: {
+      precio_venta: {
         type: Sequelize.STRING,
       },
-      telefono: {
+      movimiento: {
         type: Sequelize.STRING,
-      },
-      correo: {
-        type: Sequelize.STRING,
+        allowNull: false
       },
       estado: {
         type: Sequelize.INTEGER,
@@ -41,38 +39,17 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       },
-      id_tipo_usuario: {
+      id_talla: {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: {
-            model: 'tipo_usuarios',
+            model: 'tallas',
             key: 'id'
         }
-      },
-      id_tienda: {
-        allowNull: false,
-        type: Sequelize.INTEGER,
-        references: {
-            model: 'tiendas',
-            key: 'id'
-        }
-      },
+      }
     });
-    await queryInterface.bulkInsert('usuarios', [{
-      user: 'Zapateria',
-      password: '$2a$10$LcjUIbHBczz1//t7fqC98OFAyK.c2EE4bUcQ4BrulqJ.ItEXk82Lq',
-      nombre: 'Zapateria',
-      apellidos: 'El Centro',
-      telefono: '5000000',
-      correo: null,
-      estado: 1,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      id_tipo_usuario: 1,
-    }]);
   },
-
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('usuarios');
+    await queryInterface.dropTable('inventarios');
   }
 };
