@@ -3,6 +3,7 @@ const Sequelize     = require('sequelize');
 const db = require("../../models");
 const Usuario = db.usuarios;
 const Tipo = db.tipo_usuarios;
+const Tienda = db.tiendas;
 const Op = db.Sequelize.Op;
 const bcrypt = require('bcryptjs')
 
@@ -15,7 +16,8 @@ module.exports = {
             user: form.user,
             password: hash,
             estado: 1,
-            id_tipo_usuario: form.userType.id
+            id_tipo_usuario: form.userType.id,
+            id_tienda: form.tienda.id
         };
 
         Usuario.create(datos)
@@ -77,6 +79,10 @@ module.exports = {
                     model: Tipo,
                     require: true,
                     where: conditionType
+                },
+                {
+                    model: Tienda,
+                    require: true
                 }
             ],
             where: condition,order:[[`${criterio}`,`${order}`]],limit,offset})
@@ -113,7 +119,8 @@ module.exports = {
             { 
                 user: form.user,
                 password: hash,
-                id_tipo_usuario: form.userType.id
+                id_tipo_usuario: form.userType.id,
+                id_tienda: form.tienda.id
             },
             { where: { 
                 id: form.id 
@@ -146,7 +153,21 @@ module.exports = {
     },
     
     get (req, res) {
-        Usuario.findAll({attributes: ['id', 'nombre']})
+        Usuario.findAll({
+            attributes: ['id', 'nombre'],
+            include: [
+                {
+                    model: Tipo,
+                    require: true,
+                    where: conditionType
+                },
+                {
+                    model: Tienda,
+                    require: true
+                }
+            ],
+            order: [['id', 'DESC']]
+        })
         .then(data => {
             res.send(data);
         })
