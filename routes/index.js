@@ -20,6 +20,9 @@ const clienteController = require('../controllers/clientes/clienteController')
 const movimientosController = require('../controllers/clientes/movimientosController')
 const tipoClienteController = require('../controllers/clientes/tipoClienteController')
 
+//CARPETA DE PROVEEDORES
+const proveedorController = require('../controllers/proveedores/proveedorController')
+
 //CARPETA DE EMPLEADOS
 const detalle_permisosController = require('../controllers/empleados/detalle_permisosController');
 const userController = require('../controllers/empleados/usuarioController');
@@ -73,6 +76,15 @@ module.exports = (app) => {
     router.put('/tipo_clientes/activate', tipoClienteController.activate);
     router.put('/tipo_clientes/deactivate', tipoClienteController.deactivate);
     router.get('/tipo_clientes/getSearch', tipoClienteController.getSearch);
+
+    //CARPETA DE PROVEEDORES
+    //proveedores
+    router.get('/proveedores/list', proveedorController.list);
+    router.post('/proveedores/create', proveedorController.create);
+    router.put('/proveedores/update', proveedorController.update);
+    router.put('/proveedores/activate', proveedorController.activate);
+    router.put('/proveedores/deactivate', proveedorController.deactivate);
+    router.get('/proveedores/getSelect', proveedorController.getSearch);
 
     //CARPETA DE EMPLEADOS
     //detalle_permisos

@@ -178,6 +178,7 @@ module.exports = {
     getSearch (req, res) {
         var busqueda = req.query.search;
         var tienda = req.query.tienda
+        console.log(req.query)
         if (tienda === 0) {
             Tallas.findAll({
                 include: [

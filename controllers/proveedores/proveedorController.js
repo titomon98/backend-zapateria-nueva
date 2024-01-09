@@ -1,7 +1,7 @@
 'use strict'
 const Sequelize     = require('sequelize');
 const db = require("../../models");
-const Tienda = db.tiendas;
+const Proveedor = db.proveedores;
 const Op = db.Sequelize.Op;
 
 module.exports = {
@@ -9,11 +9,14 @@ module.exports = {
         let form = req.body.form
         const datos = {
             nombre: form.name,
+            telefono: form.telefono,
+            correo: form.correo,
+            nit: form.nit,
             direccion: form.direccion,
             estado: 1
         };
 
-        Tienda.create(datos)
+        Proveedor.create(datos)
         .then(tipo => {
             res.send(tipo);
         })
@@ -54,7 +57,7 @@ module.exports = {
 
         var condition = busqueda ? { [Op.or]: [{ nombre: { [Op.like]: `%${busqueda}%` } }] } : null ;
 
-        Tienda.findAndCountAll({ where: condition,order:[[`${criterio}`,`${order}`]],limit,offset})
+        Proveedor.findAndCountAll({  where: condition,order:[[`${criterio}`,`${order}`]],limit,offset})
         .then(data => {
 
         console.log('data: '+JSON.stringify(data))
@@ -73,17 +76,20 @@ module.exports = {
     find (req, res) {
         const id = req.params.id;
 
-        return Tienda.findByPk(id)
+        return Proveedor.findByPk(id)
         .then(banco => res.status(200).send(banco))
         .catch(error => res.status(400).send(error))
     },
 
     update (req, res) {
         let form = req.body.form
-        Tienda.update(
+        Proveedor.update(
             { 
                 nombre: form.name,
-                direccion: form.direccion
+                telefono: form.telefono,
+                correo: form.correo,
+                nit: form.nit,
+                direccion: form.direccion,
             },
             { where: { 
                 id: form.id 
@@ -97,7 +103,7 @@ module.exports = {
     },
 
     activate (req, res) {
-        Tienda.update(
+        Proveedor.update(
             { estado: 1 },
             { where: { 
                 id: req.body.id 
@@ -111,7 +117,7 @@ module.exports = {
     },
 
     deactivate (req, res) {
-        Tienda.update(
+        Proveedor.update(
             { estado: 0 },
             { where: { 
                 id: req.body.id 
@@ -124,14 +130,7 @@ module.exports = {
         });
     },
     get (req, res) {
-        Tienda.findAll({
-            attributes: ['id', 'nombre'],
-            where: {
-                estado: {
-                    [Op.gt]: 0
-                }
-            },
-        })
+        Proveedor.findAll({attributes: ['id', 'nombre']})
         .then(data => {
             res.send(data);
         })
@@ -142,16 +141,9 @@ module.exports = {
     },
     getSearch (req, res) {
         var busqueda = req.query.search;
-        Tienda.findAll({
-            where: {
-                nombre: {
-                    [Op.like]: `%${busqueda}%`
-                }, 
-                estado: 1,
-                id: {
-                    [Op.gt]: 0
-                }
-            }})
+        var condition = busqueda?{ [Op.or]:[ {nombre: { [Op.like]: `%${busqueda}%` }}],[Op.and]:[{estado:1}] } : {estado:1} ;
+        Proveedor.findAll({
+            where: condition})
         .then(data => {
             res.send(data);
         })
