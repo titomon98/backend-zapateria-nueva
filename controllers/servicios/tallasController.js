@@ -93,10 +93,11 @@ module.exports = {
 
     update (req, res) {
         let form = req.body.form
+
         Tallas.update(
             { 
                 nombre: form.name,
-                precio: form.precio
+                codigo: form.codigo,
             },
             { where: { 
                 id: form.id 
@@ -137,7 +138,11 @@ module.exports = {
         });
     },
     get (req, res) {
-        Tallas.findAll({attributes: ['id', 'nombre']})
+        Tallas.findAll({
+            where: {
+                id: req.query.id
+            }
+        })
         .then(data => {
             res.send(data);
         })
