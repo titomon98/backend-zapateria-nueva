@@ -1,24 +1,24 @@
 {
   "development": {
     "username": "root",
-    "password": null,
+    "password": "Zap34D#gTNew",
     "database": "zapateria",
-    "host": "127.0.0.1",
+    "host": "localhost",
     "dialect": "mysql",
     "operatorAliases": false
   },
   "test": {
     "username": "root",
-    "password": null,
-    "database": "centro_galo",
-    "host": "127.0.0.1",
+    "password": "Zap34D#gTNew",
+    "database": "zapateria",
+    "host": "localhost",
     "dialect": "mysql"
   },
   "production": {
     "username": "root",
-    "password": null,
-    "database": "centro_galo",
-    "host": "127.0.0.1",
+    "password": "Zap34D#gTNew",
+    "database": "zapateria",
+    "host": "localhost",
     "dialect": "mysql"
   }
 }
