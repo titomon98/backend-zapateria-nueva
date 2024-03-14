@@ -1,8 +1,12 @@
 'use strict'
 const Sequelize     = require('sequelize');
 const db = require("../../models");
-const Tallas = db.tallas;
 const Zapato = db.zapatos;
+const Colores = db.colores;
+const Clasificacion = db.clasificaciones;
+const Marcas = db.marcas;
+const Tallas = db.tallas;
+const Tiendas = db.tiendas;
 const Op = db.Sequelize.Op;
 
 module.exports = {
@@ -93,10 +97,11 @@ module.exports = {
 
     update (req, res) {
         let form = req.body.form
+
         Tallas.update(
             { 
                 nombre: form.name,
-                precio: form.precio
+                codigo: form.codigo,
             },
             { where: { 
                 id: form.id 
@@ -136,8 +141,13 @@ module.exports = {
             return res.status(400).json({ msg: 'Ha ocurrido un error, por favor intente más tarde' });
         });
     },
+
     get (req, res) {
-        Tallas.findAll({attributes: ['id', 'nombre']})
+        Tallas.findAll({
+            where: {
+                id: req.query.id
+            }
+        })
         .then(data => {
             res.send(data);
         })
@@ -146,6 +156,7 @@ module.exports = {
             return res.status(400).json({ msg: 'Ha ocurrido un error, por favor intente más tarde' });
         });
     },
+
     getSearch (req, res) {
         var busqueda = req.query.search;
         var condition = busqueda?{ [Op.or]:[ {nombre: { [Op.like]: `%${busqueda}%` }}],[Op.and]:[{estado:1}] } : {estado:1} ;
@@ -158,6 +169,40 @@ module.exports = {
             console.log(error)
             return res.status(400).json({ msg: 'Ha ocurrido un error, por favor intente más tarde' });
         });
-    }
+    },
+
+    getByCode (req, res) {
+        Tallas.findOne({
+            include: [
+                {
+                    model: Zapato,
+                    include: [
+                        {
+                            model: Colores,
+                        },
+                        {
+                            model: Clasificacion,
+                        },
+                        {
+                            model: Marcas,
+                        }
+                    ]
+                },
+                {
+                    model: Tiendas,
+                },
+            ],
+            where: {
+                codigo: req.query.codigo
+            }
+        })
+        .then(data => {
+            res.send(data);
+        })
+        .catch(error => {
+            console.log(error)
+            return res.status(400).json({ msg: 'Ha ocurrido un error, por favor intente más tarde' });
+        });
+    },
 };
 

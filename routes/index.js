@@ -146,6 +146,7 @@ module.exports = (app) => {
     router.put('/tallas/deactivate', tallasController.deactivate);
     router.get('/tallas/get', tallasController.get);
     router.get('/tallas/getSelect', tallasController.getSearch);
+    router.get('/tallas/getByCode', tallasController.getByCode);
 
     //tiendas
     router.get('/tiendas/list', tiendasController.list);
