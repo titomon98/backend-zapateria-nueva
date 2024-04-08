@@ -65,7 +65,7 @@ module.exports = {
 
         const { limit, offset } = getPagination(page, size);
 
-        var condition = busqueda ? { [Op.or]: [{ nombre: { [Op.like]: `%${busqueda}%` } }] } : null ;
+        var condition = busqueda ? { [Op.or]: [{ codigo: { [Op.like]: `%${busqueda}%` } }] } : null ;
 
         Tallas.findAndCountAll({ include: [
             {
@@ -159,7 +159,7 @@ module.exports = {
 
     getSearch (req, res) {
         var busqueda = req.query.search;
-        var condition = busqueda?{ [Op.or]:[ {nombre: { [Op.like]: `%${busqueda}%` }}],[Op.and]:[{estado:1}] } : {estado:1} ;
+        var condition = busqueda?{ [Op.or]:[ {codigo: { [Op.like]: `%${busqueda}%` }}],[Op.and]:[{estado:1}] } : {estado:1} ;
         Tallas.findAll({
             where: condition})
         .then(data => {
