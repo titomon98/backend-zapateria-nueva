@@ -10,7 +10,7 @@ const path = require('path');
 app.use(logger('dev'));
 
 //validacion de rutas
-app.use(cors({origin:true}));
+app.use(cors());
 
 /* Agruegué el de express que el de bodyparser daba deprecate */
 app.use(express.json({limit:"50mb"}));  
