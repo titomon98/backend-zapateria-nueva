@@ -160,6 +160,7 @@ module.exports = (app) => {
     //traslados
     router.get('/traslados/list', trasladosController.list);
     router.post('/traslados/create', trasladosController.create);
+    router.post('/traslados/createRapido', trasladosController.createRapido);
     router.put('/traslados/update', trasladosController.update);
     router.put('/traslados/ingreso', trasladosController.ingreso);
     router.put('/traslados/activate', trasladosController.activate);

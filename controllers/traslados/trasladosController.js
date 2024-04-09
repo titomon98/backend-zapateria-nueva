@@ -10,14 +10,18 @@ const Op = db.Sequelize.Op;
 module.exports = {
     create(req, res) {
         let form = req.body
+        const fechaActual = new Date();
+        const fechaString = `${fechaActual.getFullYear()}-${(fechaActual.getMonth() + 1)
+        .toString()
+        .padStart(2, '0')}-${fechaActual.getDate().toString().padStart(2, '0')}`;
         const datos = {
-            fecha: form.fecha,
+            fecha: fechaString,
             descripcion: form.descripcion,
             id_usuario: form.id_usuario,
             id_tienda_envio: form.tienda1.id,
             id_tienda_recibe: form.tienda2.id,
             id_responsable_envio: form.responsable.id,
-            total: form.total,
+            cantidad: form.cantidad,
             estado: 2
         };
 
@@ -241,6 +245,49 @@ module.exports = {
             console.log(error)
             return res.status(400).json({ msg: 'Ha ocurrido un error, por favor intente más tarde' });
         });
-    }
+    },
+
+    createRapido(req, res) {
+        let form = req.body
+        const fechaActual = new Date();
+        const fechaString = `${fechaActual.getFullYear()}-${(fechaActual.getMonth() + 1)
+        .toString()
+        .padStart(2, '0')}-${fechaActual.getDate().toString().padStart(2, '0')}`;
+        const datos = {
+            fecha: fechaString,
+            descripcion: form.descripcion,
+            id_usuario: form.id_usuario,
+            id_tienda_envio: form.tienda1.id,
+            id_tienda_recibe: form.tienda2.id,
+            id_responsable_envio: form.responsable.id,
+            cantidad: form.cantidad,
+            estado: 2
+        };
+
+        Traslado.create(datos)
+        .then(traslado => {
+            const traslado_id = traslado.id
+            let cantidad = form.cantidad
+            let descripcion = form.descripcion
+
+            let datos_detalles = {
+                cantidad: cantidad,
+                descripcion: descripcion,
+                subtotal: 0,
+                estado: 2,
+                id_traslado: traslado_id,
+                id_talla: form.id
+            }
+
+            DetalleTraslado.create(datos_detalles)
+
+            res.send(traslado);
+        })
+        .catch(error => {
+            console.log(error)
+            return res.status(400).json({ msg: 'Ha ocurrido un error, por favor intente más tarde' });
+        });
+                    
+    },
 };
 

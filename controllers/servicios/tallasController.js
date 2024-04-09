@@ -61,29 +61,34 @@ module.exports = {
         const size=req.query.limit;
         const criterio=req.query.criterio;
         const order=req.query.order;
+        const enviar = req.query.enviar;
 
+        if (enviar !== '0') {
+            const { limit, offset } = getPagination(page, size);
 
-        const { limit, offset } = getPagination(page, size);
-
-        var condition = busqueda ? { [Op.or]: [{ codigo: { [Op.like]: `%${busqueda}%` } }] } : null ;
-
-        Tallas.findAndCountAll({ include: [
-            {
-                model: Zapato,
-            }
-        ], where: condition,order:[[`${criterio}`,`${order}`]],limit,offset})
-        .then(data => {
-
-        console.log('data: '+JSON.stringify(data))
-        const response = getPagingData(data, page, limit);
-
-        console.log('response: '+JSON.stringify(response))
-        res.send({total:response.totalItems,last_page:response.totalPages, current_page: page+1, from:response.currentPage,to:response.totalPages,data:response.referido});
-        })
-        .catch(error => {
-            console.log(error)
-            return res.status(400).json({ msg: 'Ha ocurrido un error, por favor intente más tarde' });
-        });
+            var condition = busqueda ? { [Op.or]: [{ codigo: { [Op.like]: `%${busqueda}%` } }] } : null ;
+    
+            Tallas.findAndCountAll({ include: [
+                {
+                    model: Zapato,
+                },
+                {
+                    model: Tiendas,
+                },
+            ], where: condition,order:[[`${criterio}`,`${order}`]],limit,offset})
+            .then(data => {
+    
+            console.log('data: '+JSON.stringify(data))
+            const response = getPagingData(data, page, limit);
+    
+            console.log('response: '+JSON.stringify(response))
+            res.send({total:response.totalItems,last_page:response.totalPages, current_page: page+1, from:response.currentPage,to:response.totalPages,data:response.referido});
+            })
+            .catch(error => {
+                console.log(error)
+                return res.status(400).json({ msg: 'Ha ocurrido un error, por favor intente más tarde' });
+            });
+        }
     },
 
 

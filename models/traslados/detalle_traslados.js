@@ -9,6 +9,10 @@ module.exports = (sequelize, DataTypes) => {
       detalle_traslado.belongsTo(models.traslados, {
         foreignKey: "id_traslado",
       });
+
+      detalle_traslado.belongsTo(models.tallas, {
+        foreignKey: "id_talla",
+      });
     }
   };
   detalle_traslado.init({
@@ -32,6 +36,10 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     id_traslado: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    id_talla: {
       type: DataTypes.INTEGER,
       allowNull: false
     },

@@ -9,6 +9,9 @@ module.exports = (sequelize, DataTypes) => {
       tienda.hasMany(models.usuarios, {
         foreignKey: "id_tienda",
       });
+      tienda.hasMany(models.tallas, {
+        foreignKey: "id_tienda",
+      })
     }
   };
   tienda.init({
