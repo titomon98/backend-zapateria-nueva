@@ -163,8 +163,7 @@ module.exports = (app) => {
     router.post('/traslados/createRapido', trasladosController.createRapido);
     router.put('/traslados/update', trasladosController.update);
     router.put('/traslados/ingreso', trasladosController.ingreso);
-    router.put('/traslados/activate', trasladosController.activate);
-    router.put('/traslados/deactivate', trasladosController.deactivate);
+    router.put('/traslados/cambiar', trasladosController.cambiar);
     router.get('/traslados/getSelect', trasladosController.getSearch);
 
     //zapatos

@@ -5,6 +5,8 @@ const Traslado = db.traslados;
 const DetalleTraslado = db.detalle_traslados;
 const Usuarios = db.usuarios;
 const Tiendas = db.tiendas;
+const Tallas = db.tallas;
+const Zapato = db.zapatos;
 const Op = db.Sequelize.Op;
 
 module.exports = {
@@ -88,6 +90,14 @@ module.exports = {
                 {
                     model: DetalleTraslado,
                     require: true,
+                    include: {
+                        model: Tallas,
+                        require: true,
+                        include: {
+                            model: Zapato,
+                            require: true
+                        }
+                    }
                 },
                 {
                     model: Usuarios,
@@ -158,55 +168,40 @@ module.exports = {
         });
     },
 
-    activate (req, res) {
-        Traslado.update(
-            { estado: 1 },
-            { where: { 
-                id: req.body.id 
-            } }
-        )
-        .then(traslado => res.status(200).send('El registro ha sido activado'))
-        .catch(error => {
-            console.log(error)
-            return res.status(400).json({ msg: 'Ha ocurrido un error, por favor intente más tarde' });
-        });
-    },
+    cambiar (req, res) {
+        const form = req.body
 
-    deactivate (req, res) {
-        Traslado.update(
-            { estado: 0 },
-            { where: { 
-                id: req.body.id 
-            } }
-        )
-        .then(traslado =>res.status(200).send('El registro ha sido desactivado'))
-        .catch(error => {
-            console.log(error)
-            return res.status(400).json({ msg: 'Ha ocurrido un error, por favor intente más tarde' });
-        });
-    },
+        if (form.descripcion === null) {
+            form.descripcion = "El usuario " + form.currentUser.user  + " no añadió una descripción en esta actualización"
+        }
+        let estado_texto = form.estado
+        if(estado_texto == 1) {
+            estado_texto = "RECIBIDO COMPLETO"
+        } else if(estado_texto == 3) {
+            estado_texto = "EN CAMINO"
+        }
+        else if(estado_texto == 4) {
+            estado_texto = "RECIBIDO INCOMPLETO"
+        }
+        else if(estado_texto == 5) {
+            estado_texto = "CANCELADO"
+        }
+        else if(estado_texto == 6) {
+            estado_texto = "NO HAY EXISTENCIA FÍSICA EN TIENDA"
+        }
 
-    async confirm (req, res) {
-        const detalles = await DetalleTraslado.findAll({ where: { 
-            id_traslado: req.body.id 
-        }});
-        console.log(detalles)
         Traslado.update(
-            { estado: 1 },
-            { where: { 
-                id: req.body.id 
-            }}
+            { 
+                estado: form.estado,
+                descripcion: form.encabezado.descripcion + "\n Actualización a estado " + estado_texto + " por el usuario " + form.currentUser.user +": \n" + form.descripcion
+            },
+            { 
+                where: { 
+                    id: form.encabezado.id
+                } 
+            }
         )
-        .then(traslado => {
-            DetalleTraslado.update({ estado: 1 },
-            { where: { 
-                id_traslado: req.body.id 
-            }})
-            detalles.forEach(element => {
-                
-            });
-            res.status(200).send('El registro ha sido desactivado')
-        })
+        .then(traslado =>res.status(200).send('El registro ha sido actualizado'))
         .catch(error => {
             console.log(error)
             return res.status(400).json({ msg: 'Ha ocurrido un error, por favor intente más tarde' });
@@ -223,6 +218,7 @@ module.exports = {
             return res.status(400).json({ msg: 'Ha ocurrido un error, por favor intente más tarde' });
         });
     },
+
     getSearch (req, res) {
         var busqueda = req.query.search;
         var condition = busqueda?{ [Op.or]:[ {nombre: { [Op.like]: `%${busqueda}%` }}],[Op.and]:[{estado:1}] } : {estado:1} ;
@@ -255,7 +251,7 @@ module.exports = {
         .padStart(2, '0')}-${fechaActual.getDate().toString().padStart(2, '0')}`;
         const datos = {
             fecha: fechaString,
-            descripcion: form.descripcion,
+            descripcion: "Descripción inicial por usuario " + form.currentUser.user + ": \n" + form.descripcion,
             id_usuario: form.id_usuario,
             id_tienda_envio: form.tienda1.id,
             id_tienda_recibe: form.tienda2.id,
@@ -272,7 +268,7 @@ module.exports = {
 
             let datos_detalles = {
                 cantidad: cantidad,
-                descripcion: descripcion,
+                descripcion: "Descripción inicial: \n" + descripcion,
                 subtotal: 0,
                 estado: 2,
                 id_traslado: traslado_id,
@@ -288,6 +284,24 @@ module.exports = {
             return res.status(400).json({ msg: 'Ha ocurrido un error, por favor intente más tarde' });
         });
                     
+    },
+
+    deactivate (req, res) {
+        Traslado.update(
+            { 
+                estado: 0 
+            },
+            { 
+                where: { 
+                    id: req.body.id 
+                }
+            }
+        )
+        .then(traslado =>res.status(200).send('El registro ha sido desactivado'))
+        .catch(error => {
+            console.log(error)
+            return res.status(400).json({ msg: 'Ha ocurrido un error, por favor intente más tarde' });
+        });
     },
 };
 
