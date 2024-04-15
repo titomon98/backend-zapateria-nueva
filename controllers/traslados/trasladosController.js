@@ -257,7 +257,8 @@ module.exports = {
             id_tienda_recibe: form.tienda2.id,
             id_responsable_envio: form.responsable.id,
             cantidad: form.cantidad,
-            estado: 2
+            estado: 2,
+            anticipo: form.anticipo
         };
 
         Traslado.create(datos)

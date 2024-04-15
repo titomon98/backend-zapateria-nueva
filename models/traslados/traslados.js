@@ -31,6 +31,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     },
+    anticipo:{
+      type: DataTypes.STRING,
+      allowNull: false
+    },
     inconsistencias:{
         type: DataTypes.STRING,
     },
