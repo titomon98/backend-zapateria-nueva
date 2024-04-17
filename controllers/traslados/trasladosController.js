@@ -304,5 +304,478 @@ module.exports = {
             return res.status(400).json({ msg: 'Ha ocurrido un error, por favor intente más tarde' });
         });
     },
+
+    listSolicitado(req, res) {
+        const getPagingData = (data, page, limit) => {
+            const { count: totalItems, rows: referido } = data;
+
+            const currentPage = page ? +page : 0;
+            const totalPages = Math.ceil(totalItems / limit);
+
+            return { totalItems, referido, totalPages, currentPage };
+        };
+
+
+        const getPagination = (page, size) => {
+            const limit = size ? +size : 2;
+            const offset = page ? page * limit : 0;
+
+            return { limit, offset };
+        };
+
+        const busqueda=req.query.search;
+        const page=req.query.page-1;
+        const size=req.query.limit;
+        const criterio=req.query.criterio;
+        const order=req.query.order;
+
+
+        const { limit, offset } = getPagination(page, size);
+
+        var condition = busqueda ? { 
+            [Op.and]: [
+                { 
+                    [Op.or]: [{ descripcion: { [Op.like]: `%${busqueda}%` } }] 
+                }, 
+                { 
+                    estado: 2
+                } 
+            ] 
+        } : { 
+            estado: 2
+        };
+        
+
+        Traslado.findAndCountAll({ 
+            include: [
+                {
+                    model: DetalleTraslado,
+                    require: true,
+                    include: {
+                        model: Tallas,
+                        require: true,
+                        include: {
+                            model: Zapato,
+                            require: true
+                        }
+                    }
+                },
+                {
+                    model: Usuarios,
+                    require: true,
+                },
+                {
+                    model: Tiendas,
+                    require: true,
+                },
+            ],
+            where: condition,order:[[`${criterio}`,`${order}`]],limit,offset})
+        .then(data => {
+
+        console.log('data: '+JSON.stringify(data))
+        const response = getPagingData(data, page, limit);
+
+        console.log('response: '+JSON.stringify(response))
+        res.send({total:response.totalItems,last_page:response.totalPages, current_page: page+1, from:response.currentPage,to:response.totalPages,data:response.referido});
+        })
+        .catch(error => {
+            console.log(error)
+            return res.status(400).json({ msg: 'Ha ocurrido un error, por favor intente más tarde' });
+        });
+    },
+
+    listCompletados(req, res) {
+        const getPagingData = (data, page, limit) => {
+            const { count: totalItems, rows: referido } = data;
+
+            const currentPage = page ? +page : 0;
+            const totalPages = Math.ceil(totalItems / limit);
+
+            return { totalItems, referido, totalPages, currentPage };
+        };
+
+
+        const getPagination = (page, size) => {
+            const limit = size ? +size : 2;
+            const offset = page ? page * limit : 0;
+
+            return { limit, offset };
+        };
+
+        const busqueda=req.query.search;
+        const page=req.query.page-1;
+        const size=req.query.limit;
+        const criterio=req.query.criterio;
+        const order=req.query.order;
+
+
+        const { limit, offset } = getPagination(page, size);
+
+        var condition = busqueda ? { 
+            [Op.and]: [
+                { 
+                    [Op.or]: [{ descripcion: { [Op.like]: `%${busqueda}%` } }] 
+                }, 
+                { 
+                    estado: 1
+                } 
+            ] 
+        } : { 
+            estado: 1
+        };
+        
+
+        Traslado.findAndCountAll({ 
+            include: [
+                {
+                    model: DetalleTraslado,
+                    require: true,
+                    include: {
+                        model: Tallas,
+                        require: true,
+                        include: {
+                            model: Zapato,
+                            require: true
+                        }
+                    }
+                },
+                {
+                    model: Usuarios,
+                    require: true,
+                },
+                {
+                    model: Tiendas,
+                    require: true,
+                },
+            ],
+            where: condition,order:[[`${criterio}`,`${order}`]],limit,offset})
+        .then(data => {
+
+        console.log('data: '+JSON.stringify(data))
+        const response = getPagingData(data, page, limit);
+
+        console.log('response: '+JSON.stringify(response))
+        res.send({total:response.totalItems,last_page:response.totalPages, current_page: page+1, from:response.currentPage,to:response.totalPages,data:response.referido});
+        })
+        .catch(error => {
+            console.log(error)
+            return res.status(400).json({ msg: 'Ha ocurrido un error, por favor intente más tarde' });
+        });
+    },
+
+    listCancelado(req, res) {
+        const getPagingData = (data, page, limit) => {
+            const { count: totalItems, rows: referido } = data;
+
+            const currentPage = page ? +page : 0;
+            const totalPages = Math.ceil(totalItems / limit);
+
+            return { totalItems, referido, totalPages, currentPage };
+        };
+
+
+        const getPagination = (page, size) => {
+            const limit = size ? +size : 2;
+            const offset = page ? page * limit : 0;
+
+            return { limit, offset };
+        };
+
+        const busqueda=req.query.search;
+        const page=req.query.page-1;
+        const size=req.query.limit;
+        const criterio=req.query.criterio;
+        const order=req.query.order;
+
+
+        const { limit, offset } = getPagination(page, size);
+
+        var condition = busqueda ? { 
+            [Op.and]: [
+                { 
+                    [Op.or]: [{ descripcion: { [Op.like]: `%${busqueda}%` } }] 
+                }, 
+                { 
+                    estado: 5
+                } 
+            ] 
+        } : { 
+            estado: 5
+        };
+        
+
+        Traslado.findAndCountAll({ 
+            include: [
+                {
+                    model: DetalleTraslado,
+                    require: true,
+                    include: {
+                        model: Tallas,
+                        require: true,
+                        include: {
+                            model: Zapato,
+                            require: true
+                        }
+                    }
+                },
+                {
+                    model: Usuarios,
+                    require: true,
+                },
+                {
+                    model: Tiendas,
+                    require: true,
+                },
+            ],
+            where: condition,order:[[`${criterio}`,`${order}`]],limit,offset})
+        .then(data => {
+
+        console.log('data: '+JSON.stringify(data))
+        const response = getPagingData(data, page, limit);
+
+        console.log('response: '+JSON.stringify(response))
+        res.send({total:response.totalItems,last_page:response.totalPages, current_page: page+1, from:response.currentPage,to:response.totalPages,data:response.referido});
+        })
+        .catch(error => {
+            console.log(error)
+            return res.status(400).json({ msg: 'Ha ocurrido un error, por favor intente más tarde' });
+        });
+    },
+
+    listExistenciaFisica(req, res) {
+        const getPagingData = (data, page, limit) => {
+            const { count: totalItems, rows: referido } = data;
+
+            const currentPage = page ? +page : 0;
+            const totalPages = Math.ceil(totalItems / limit);
+
+            return { totalItems, referido, totalPages, currentPage };
+        };
+
+
+        const getPagination = (page, size) => {
+            const limit = size ? +size : 2;
+            const offset = page ? page * limit : 0;
+
+            return { limit, offset };
+        };
+
+        const busqueda=req.query.search;
+        const page=req.query.page-1;
+        const size=req.query.limit;
+        const criterio=req.query.criterio;
+        const order=req.query.order;
+
+
+        const { limit, offset } = getPagination(page, size);
+
+        var condition = busqueda ? { 
+            [Op.and]: [
+                { 
+                    [Op.or]: [{ descripcion: { [Op.like]: `%${busqueda}%` } }] 
+                }, 
+                { 
+                    estado: 6
+                } 
+            ] 
+        } : { 
+            estado: 6
+        };
+        
+
+        Traslado.findAndCountAll({ 
+            include: [
+                {
+                    model: DetalleTraslado,
+                    require: true,
+                    include: {
+                        model: Tallas,
+                        require: true,
+                        include: {
+                            model: Zapato,
+                            require: true
+                        }
+                    }
+                },
+                {
+                    model: Usuarios,
+                    require: true,
+                },
+                {
+                    model: Tiendas,
+                    require: true,
+                },
+            ],
+            where: condition,order:[[`${criterio}`,`${order}`]],limit,offset})
+        .then(data => {
+
+        console.log('data: '+JSON.stringify(data))
+        const response = getPagingData(data, page, limit);
+
+        console.log('response: '+JSON.stringify(response))
+        res.send({total:response.totalItems,last_page:response.totalPages, current_page: page+1, from:response.currentPage,to:response.totalPages,data:response.referido});
+        })
+        .catch(error => {
+            console.log(error)
+            return res.status(400).json({ msg: 'Ha ocurrido un error, por favor intente más tarde' });
+        });
+    },
+
+    listEnCamino(req, res) {
+        const getPagingData = (data, page, limit) => {
+            const { count: totalItems, rows: referido } = data;
+
+            const currentPage = page ? +page : 0;
+            const totalPages = Math.ceil(totalItems / limit);
+
+            return { totalItems, referido, totalPages, currentPage };
+        };
+
+
+        const getPagination = (page, size) => {
+            const limit = size ? +size : 2;
+            const offset = page ? page * limit : 0;
+
+            return { limit, offset };
+        };
+
+        const busqueda=req.query.search;
+        const page=req.query.page-1;
+        const size=req.query.limit;
+        const criterio=req.query.criterio;
+        const order=req.query.order;
+
+
+        const { limit, offset } = getPagination(page, size);
+
+        var condition = busqueda ? { 
+            [Op.and]: [
+                { 
+                    [Op.or]: [{ descripcion: { [Op.like]: `%${busqueda}%` } }] 
+                }, 
+                { 
+                    estado: 3 
+                } 
+            ] 
+        } : { 
+            estado: 3
+        };
+        
+
+        Traslado.findAndCountAll({ 
+            include: [
+                {
+                    model: DetalleTraslado,
+                    require: true,
+                    include: {
+                        model: Tallas,
+                        require: true,
+                        include: {
+                            model: Zapato,
+                            require: true
+                        }
+                    }
+                },
+                {
+                    model: Usuarios,
+                    require: true,
+                },
+                {
+                    model: Tiendas,
+                    require: true,
+                },
+            ],
+            where: condition,order:[[`${criterio}`,`${order}`]],limit,offset})
+        .then(data => {
+
+        console.log('data: '+JSON.stringify(data))
+        const response = getPagingData(data, page, limit);
+
+        console.log('response: '+JSON.stringify(response))
+        res.send({total:response.totalItems,last_page:response.totalPages, current_page: page+1, from:response.currentPage,to:response.totalPages,data:response.referido});
+        })
+        .catch(error => {
+            console.log(error)
+            return res.status(400).json({ msg: 'Ha ocurrido un error, por favor intente más tarde' });
+        });
+    },
+
+    listIncompletos(req, res) {
+        const getPagingData = (data, page, limit) => {
+            const { count: totalItems, rows: referido } = data;
+
+            const currentPage = page ? +page : 0;
+            const totalPages = Math.ceil(totalItems / limit);
+
+            return { totalItems, referido, totalPages, currentPage };
+        };
+
+
+        const getPagination = (page, size) => {
+            const limit = size ? +size : 2;
+            const offset = page ? page * limit : 0;
+
+            return { limit, offset };
+        };
+
+        const busqueda=req.query.search;
+        const page=req.query.page-1;
+        const size=req.query.limit;
+        const criterio=req.query.criterio;
+        const order=req.query.order;
+
+
+        const { limit, offset } = getPagination(page, size);
+
+        var condition = busqueda ? { 
+            [Op.and]: [
+                { 
+                    [Op.or]: [{ descripcion: { [Op.like]: `%${busqueda}%` } }] 
+                }, 
+                { 
+                    estado: 4 
+                } 
+            ] 
+        } : { 
+            estado: 4 
+        };        
+
+        Traslado.findAndCountAll({ 
+            include: [
+                {
+                    model: DetalleTraslado,
+                    require: true,
+                    include: {
+                        model: Tallas,
+                        require: true,
+                        include: {
+                            model: Zapato,
+                            require: true
+                        }
+                    }
+                },
+                {
+                    model: Usuarios,
+                    require: true,
+                },
+                {
+                    model: Tiendas,
+                    require: true,
+                },
+            ],
+            where: condition,order:[[`${criterio}`,`${order}`]],limit,offset})
+        .then(data => {
+
+        console.log('data: '+JSON.stringify(data))
+        const response = getPagingData(data, page, limit);
+
+        console.log('response: '+JSON.stringify(response))
+        res.send({total:response.totalItems,last_page:response.totalPages, current_page: page+1, from:response.currentPage,to:response.totalPages,data:response.referido});
+        })
+        .catch(error => {
+            console.log(error)
+            return res.status(400).json({ msg: 'Ha ocurrido un error, por favor intente más tarde' });
+        });
+    },
 };
 

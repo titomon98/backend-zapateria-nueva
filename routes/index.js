@@ -165,6 +165,13 @@ module.exports = (app) => {
     router.put('/traslados/ingreso', trasladosController.ingreso);
     router.put('/traslados/cambiar', trasladosController.cambiar);
     router.get('/traslados/getSelect', trasladosController.getSearch);
+    router.get('/traslados/listCancelado', trasladosController.listCancelado);
+    router.get('/traslados/listCompletados', trasladosController.listCompletados);
+    router.get('/traslados/listEnCamino', trasladosController.listEnCamino);
+    router.get('/traslados/listExistenciaFisica', trasladosController.listExistenciaFisica);
+    router.get('/traslados/listIncompletos', trasladosController.listIncompletos);
+    router.get('/traslados/listSolicitado', trasladosController.listSolicitado);
+
 
     //zapatos
     router.get('/zapatos/list', zapatosController.list);
