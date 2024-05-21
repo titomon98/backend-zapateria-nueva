@@ -7,6 +7,7 @@ const Usuarios = db.usuarios;
 const Tallas = db.tallas;
 const Clientes = db.clientes;
 const Inventario = db.inventarios;
+const Tiendas = db.tiendas;
 const Op = db.Sequelize.Op;
 
 module.exports = {
@@ -124,7 +125,12 @@ module.exports = {
                     require: true,
                     include: [
                         {
-                            model: Tallas
+                            model: Tallas,
+                            include: [
+                               { 
+                                model: Tiendas
+                               }
+                            ]
                         }
                     ]
                 },

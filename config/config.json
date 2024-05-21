@@ -1,7 +1,7 @@
 {
   "development": {
     "username": "root",
-    "password": "Zap34D#gTNew",
+    "password": null,
     "database": "zapateria",
     "host": "localhost",
     "dialect": "mysql",
