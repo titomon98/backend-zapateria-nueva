@@ -12,10 +12,10 @@ const Op = db.Sequelize.Op;
 
 
 module.exports = {
-    get(req, res) {
+    list(req, res) {
 
-        const id_zapato=req.body.id_zapato;
-
+        const id_zapato=req.query.id_zapato;
+        console.log('-------------------------',req.query)
         var condition = [{ id_zapato: { [Op.like]: id_zapato } }] ;
 
         Foto.findAndCountAll({attributes: ['foto'],where: condition})

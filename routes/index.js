@@ -184,7 +184,7 @@ module.exports = (app) => {
     router.get('/zapatos/getSelect', zapatosController.getSearch);
 
     // fotos
-    router.get('/fotos/list', fotosController.get);
+    router.get('/fotos/list', fotosController.list);
 
     //CARPETA DE DATA
     //reportes
