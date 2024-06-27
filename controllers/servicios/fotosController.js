@@ -10,6 +10,7 @@ const Tallas = db.tallas;
 const Tiendas = db.tiendas;
 const Op = db.Sequelize.Op;
 
+
 module.exports = {
     list(req, res) {
 
