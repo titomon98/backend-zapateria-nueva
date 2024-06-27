@@ -12,16 +12,16 @@ const Op = db.Sequelize.Op;
 
 
 module.exports = {
-    list(req, res) {
+    get(req, res) {
 
         const id_zapato=req.body.id_zapato;
 
         var condition = [{ id_zapato: { [Op.like]: id_zapato } }] ;
 
-        Foto.findAll({attributes: ['foto'],where: condition,order:[[`${criterio}`,`${order}`]],limit,offset})
+        Foto.findAndCountAll({attributes: ['foto'],where: condition})
         .then(data => {
             console.log('data: '+JSON.stringify(data))
-            const response = getPagingData(data);
+            const response = data;
 
             console.log('response: '+JSON.stringify(response))
             res.send(response);
