@@ -2,6 +2,7 @@
 const Sequelize     = require('sequelize');
 const db = require("../../models");
 const Zapato = db.zapatos;
+const Foto = db.fotos;
 const Colores = db.colores;
 const Clasificacion = db.clasificaciones;
 const Marcas = db.marcas;
@@ -27,6 +28,19 @@ module.exports = {
 
         Zapato.create(datos)
         .then(tipo => {
+            let fotos = req.body.form.base64Images
+            let cantidad = req.body.form.base64Images.length
+            for (let i = 0; i < cantidad; i++){
+                let datos_foto = {
+                    foto: fotos[i],
+                    id_zapato: tipo.id
+                }
+                Foto.create(datos_foto)
+                .catch(error => {
+                    console.log(error)
+                    return res.status(400).json({ msg: 'Ha ocurrido un error, por favor intente más tarde' });
+                });
+            }
             res.send(tipo);
         })
         .catch(error => {
