@@ -41,6 +41,7 @@ const marcasController = require('../controllers/servicios/marcasController')
 const tallasController = require('../controllers/servicios/tallasController')
 const tiendasController = require('../controllers/servicios/tiendasController')
 const zapatosController = require('../controllers/servicios/zapatosController');
+const fotosController = require('../controllers/servicios/fotosController');
 const usuarioController = require('../controllers/empleados/usuarioController');
 
 //CARPETA DE DATA
@@ -181,6 +182,9 @@ module.exports = (app) => {
     router.put('/zapatos/deactivate', zapatosController.deactivate);
     router.get('/zapatos/get', zapatosController.get);
     router.get('/zapatos/getSelect', zapatosController.getSearch);
+
+    // fotos
+    router.get('/fotos/list', fotosController.list);
 
     //CARPETA DE DATA
     //reportes

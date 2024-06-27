@@ -35,16 +35,15 @@ module.exports = {
                     foto: fotos[i],
                     id_zapato: tipo.id
                 }
-                Foto.create(datos_foto)
-                .catch(error => {
-                    console.log(error)
-                    return res.status(400).json({ msg: 'Ha ocurrido un error, por favor intente más tarde' });
-                });
+                Foto.create(datos_foto).then(tipo => {
+            
+                    console.log('OK!')
+                })
             }
             res.send(tipo);
         })
         .catch(error => {
-            console.log(error)
+            //console.log(error)
             return res.status(400).json({ msg: 'Ha ocurrido un error, por favor intente más tarde' });
         });
                     
