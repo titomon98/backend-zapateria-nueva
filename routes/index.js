@@ -185,6 +185,7 @@ module.exports = (app) => {
 
     // fotos
     router.get('/fotos/list', fotosController.list);
+    router.delete('/fotos/delete', fotosController.delete);
 
     //CARPETA DE DATA
     //reportes

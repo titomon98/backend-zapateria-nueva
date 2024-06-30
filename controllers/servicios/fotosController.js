@@ -30,6 +30,19 @@ module.exports = {
             console.log(error)
             return res.status(400).json({ msg: 'Ha ocurrido un error, por favor intente más tarde' });
         });
-    }
+    },
+    delete(req, res) {
+        let form = req.body.form
+        Foto.delete(
+            { where: { 
+                id: form.id 
+            } }
+        )
+        .then(foto => res.status(200).send('El registro ha sido eliminado'))
+        .catch(error => {
+            console.log(error)
+            return res.status(400).json({ msg: 'Ha ocurrido un error, por favor intente más tarde' });
+        });
+    },
 };
 
