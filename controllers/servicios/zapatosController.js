@@ -135,7 +135,7 @@ module.exports = {
             for (let i = 0; i < cantidad; i++){
                 let datos_foto = {
                     foto: fotos[i],
-                    id_zapato: tipo.id
+                    id_zapato: form.id 
                 }
                 Foto.create(datos_foto).then(tipo => {
             
