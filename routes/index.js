@@ -30,6 +30,7 @@ const userTypeController = require('../controllers/empleados/tipoUsuarioControll
 
 //CARPETA DE TRANSACCIONES
 const ventasController = require('../controllers/transacciones/ventasController')
+const reportesVentasController = require('../controllers/transacciones/reportesVentasController')
 
 //CARPETA DE TRASLADOS
 const trasladosController = require('../controllers/traslados/trasladosController')
@@ -110,6 +111,9 @@ module.exports = (app) => {
     router.put('/ventas/activate', ventasController.activate);
     router.put('/ventas/deactivate', ventasController.deactivate);
     router.get('/ventas/get', ventasController.get);
+
+    //reportes de ventas
+    router.get('/ventas/reporte/cierre', reportesVentasController.getCierre)
 
     //CARPETA DE SERVICIOS
     //clasificaciones
