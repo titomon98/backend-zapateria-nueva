@@ -129,8 +129,21 @@ module.exports = {
             { where: { 
                 id: form.id 
             } }
-        )
-        .then(banco => res.status(200).send('El registro ha sido actualizado'))
+        ).then(tipo => {
+            let fotos = req.body.form.base64Images
+            let cantidad = req.body.form.base64Images.length
+            for (let i = 0; i < cantidad; i++){
+                let datos_foto = {
+                    foto: fotos[i],
+                    id_zapato: form.id 
+                }
+                Foto.create(datos_foto).then(tipo => {
+            
+                    console.log('OK!')
+                })
+            }
+            res.send(tipo);
+        })
         .catch(error => {
             console.log(error)
             return res.status(400).json({ msg: 'Ha ocurrido un error, por favor intente más tarde' });

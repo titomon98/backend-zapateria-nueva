@@ -18,7 +18,7 @@ module.exports = {
         console.log('-------------------------',req.query)
         var condition = [{ id_zapato: { [Op.like]: id_zapato } }] ;
 
-        Foto.findAndCountAll({attributes: ['foto'],where: condition})
+        Foto.findAndCountAll({attributes: ['id','foto'],where: condition})
         .then(data => {
             console.log('data: '+JSON.stringify(data))
             const response = data;
@@ -30,6 +30,19 @@ module.exports = {
             console.log(error)
             return res.status(400).json({ msg: 'Ha ocurrido un error, por favor intente más tarde' });
         });
-    }
+    },
+    delete(req, res) {
+        console.log(req.query)
+        Foto.destroy(
+            { where: { 
+                id: req.query.id
+            } }
+        )
+        .then(foto => res.status(200).send('El registro ha sido eliminado'))
+        .catch(error => {
+            console.log(error)
+            return res.status(400).json({ msg: 'Ha ocurrido un error, por favor intente más tarde' });
+        });
+    },
 };
 
