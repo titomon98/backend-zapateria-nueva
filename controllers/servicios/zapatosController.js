@@ -207,6 +207,7 @@ module.exports = {
         console.log(req.query)
         if (tienda === 0) {
             Tallas.findAll({
+                attributes: ['id', 'talla'],
                 include: [
                     {
                         model: Zapato,
@@ -242,6 +243,7 @@ module.exports = {
             });
         } else {
             Tallas.findAll({
+                attributes: ['id', 'talla', 'cantidad'],
                 include: [
                     {
                         model: Zapato,

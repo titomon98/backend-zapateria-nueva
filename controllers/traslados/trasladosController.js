@@ -20,10 +20,11 @@ module.exports = {
             fecha: fechaString,
             descripcion: form.descripcion,
             id_usuario: form.id_usuario,
-            id_tienda_envio: form.tienda1.id,
-            id_tienda_recibe: form.tienda2.id,
-            id_responsable_envio: form.responsable.id,
+            id_tienda_envio: form.id_tienda_envio,
+            id_tienda_recibe: form.id_tienda_recibe,
+            id_responsable_envio: form.id_responsable_envio.id,
             cantidad: form.cantidad,
+            anticipo: form.adelanto,
             estado: 2
         };
 
@@ -33,18 +34,32 @@ module.exports = {
             let total = 0;
             let detalles = form.detalle
             let cantidad = form.detalle.length
+            console.log(detalles)
             for (let i = 0; i < cantidad; i++){
                 let id_medicine = detalles[i].id_medicine
                 let datos_detalles = {
-                    cantidad: detalles[i].cantidad,
-                    descripcion: detalles[i].descripcion,
+                    cantidad: parseInt(detalles[i].cantidad),
+                    descripcion: detalles[i].motivo,
+                    existencias: parseInt(detalles[i].existencias),
+                    id_talla: detalles[i].id_talla,
                     subtotal: detalles[i].total,
                     estado: 2,
                     id_traslado: traslado_id,
                     id_medicamento: id_medicine
                 }
                 total = total + parseFloat(detalles[i].total)
-                DetalleTraslado.create(datos_detalles)
+                const newCant = parseInt(detalles[i].existencias) - parseInt(detalles[i].cantidad)
+                console.log('CANT -------------- ', newCant)
+                DetalleTraslado.create(datos_detalles).then(() => {
+                    Tallas.update(
+                        { 
+                            cantidad: parseInt(newCant)
+                        },
+                        { where: { 
+                            id: detalles[i].id_talla
+                        } }
+                    )
+                })
             }
             res.send(traslado);
         })
