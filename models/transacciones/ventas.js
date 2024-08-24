@@ -54,6 +54,11 @@ module.exports = (sequelize, DataTypes) => {
     direccion: {
       type: DataTypes.STRING,
     },
+    por_pagar: {
+      type: DataTypes.DECIMAL(10,2),
+      default: 0.00,
+      allowNull: false
+    }
   }, {
     sequelize,
     modelName: 'ventas',
