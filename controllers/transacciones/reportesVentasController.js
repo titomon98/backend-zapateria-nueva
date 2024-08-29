@@ -61,6 +61,52 @@ module.exports = {
             return res.status(400).json({ msg: 'Ha ocurrido un error, por favor intente más tarde' });
         });
     },
+    getVentasTotales (req, res) {
+        const date = req.query.date
+        console.log(req.query)
+        let TODAY_START = moment(date).format('YYYY-MM-DD 00:00');
+        let NOW = moment(TODAY_START).add(1, 'days');
+        Ventas.findAll({
+            include: [
+                {
+                    model: DetalleVentas,
+                    require: true,
+                    include: [
+                        {
+                            model: Tallas,
+                            include: [
+                               { 
+                                model: Tiendas
+                               }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    model: Usuarios,
+                    require: true,
+                },
+                {
+                    model: Clientes
+                },
+            ],
+            where: {
+                fecha: {
+                    [Op.between]: [
+                        TODAY_START,
+                        NOW,
+                    ]
+                }
+            }
+        })
+        .then(data => {
+            res.send(data);
+        })
+        .catch(error => {
+            console.log(error)
+            return res.status(400).json({ msg: 'Ha ocurrido un error, por favor intente más tarde' });
+        });
+    },
 
 };
 

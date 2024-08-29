@@ -111,10 +111,10 @@ module.exports = (app) => {
     router.put('/ventas/activate', ventasController.activate);
     router.put('/ventas/deactivate', ventasController.deactivate);
     router.get('/ventas/get', ventasController.get);
-    router.post('/ventas/pay', ventasController.pay);
 
     //reportes de ventas
     router.get('/ventas/reporte/cierre', reportesVentasController.getCierre)
+    router.get('/ventas/reporte/total', reportesVentasController.getVentasTotales)
 
     //CARPETA DE SERVICIOS
     //clasificaciones
