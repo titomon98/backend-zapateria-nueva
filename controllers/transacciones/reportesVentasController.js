@@ -63,6 +63,7 @@ module.exports = {
     },
     getVentasTotales (req, res) {
         const date = req.query.date
+        console.log(req.query)
         let TODAY_START = moment(date).format('YYYY-MM-DD 00:00');
         let NOW = moment(TODAY_START).add(1, 'days');
         Ventas.findAll({

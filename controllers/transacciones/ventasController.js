@@ -8,6 +8,7 @@ const Tallas = db.tallas;
 const Clientes = db.clientes;
 const Inventario = db.inventarios;
 const Tiendas = db.tiendas;
+const Cobro = db.detalle_cobros;
 const Op = db.Sequelize.Op;
 
 module.exports = {
@@ -26,6 +27,7 @@ module.exports = {
             fecha: now,
             referencia_factura: null,
             tipo_cobro: body.tipo_cobro.nombre,
+            por_pagar: body.total
         }
 
         Ventas.create(datos).
@@ -197,24 +199,104 @@ module.exports = {
     },
 
     deactivate (req, res) {
-        DetalleVentas.findAll({where: { id_venta: req.body.id }}).then(data => {
 
+        DetalleVentas.findAll({where: { id_venta: req.body.id }}).then(data => {
             console.log(data)
-            //Pendiente de volver a cargar datos a inventario
         })
+        .then(res => 
+            {
+                if (req.body.state == 1){
+                    //pagado
+                    Ventas.update(
+                        { estado: 0 },
+                        { where: { 
+                            id: req.body.id 
+                        }}
+                    )
+                    .then(ventas =>res.status(200).send('El registro ha sido desactivado'))
+                    .catch(error => res.status(400).send(error))
+
+                    res.forEach(element => {
+                        Tallas.update(
+                            {
+                                cantidad: element.cantidad + element.Tallas.cantidad
+                            },
+                            {
+                                where: {
+                                    id: element.id_talla
+                                }
+                            }
+                        )
+                    });
+                }
+                else if (req.body.state == 3){
+                //Adelanto
+                    Ventas.update(
+                        { estado: 0 },
+                        { where: { 
+                            id: req.body.id 
+                        }}
+                    )
+                    .then(ventas =>res.status(200).send('El registro ha sido desactivado'))
+                    .catch(error => res.status(400).send(error))
+                }
+                else {
+                //pedido pero no pagado ni adelanto
+                    Ventas.update(
+                        { estado: 0 },
+                        { where: { 
+                            id: req.body.id 
+                        }}
+                    )
+                    .then(ventas =>res.status(200).send('El registro ha sido desactivado'))
+                    .catch(error => res.status(400).send(error))
+                }
+            }
+        )
         .catch(err => {
             res.status(500).send({
             message:
             err.message || "Ha ocurrido un error."
             });
         });
-        Ventas.update(
-            { estado: 1 },
-            { where: { 
-                id: req.body.id 
-            }}
-        )
-        .then(ventas =>res.status(200).send('El registro ha sido desactivado'))
+    },
+
+    pay (req,res) {
+        console.log(req.body)
+        Cobro.create({
+            id_venta: req.body.id_venta,
+            efectivo: req.body.efectivo,
+            tarjeta: req.body.tarjeta,
+            deposito: req.body.deposito,
+            cheque: req.body.cheque,
+            fecha: req.body.fecha,
+            total: req.body.total
+        })
+        .then(cobro => {
+            if (req.body.por_pagar == 0 ){
+                Ventas.update({
+                    por_pagar: 0,
+                    estado: 1
+                },{
+                    where:{
+                        id: req.body.id_venta
+                    }
+                })
+                .then(venta => res.status(200).send('El registro se ha actualizado correctamente'))
+                .catch(error => res.status(500).send(error))                
+            } else {
+                Ventas.update({
+                    por_pagar: req.body.por_pagar,
+                    estado: 3
+                },{
+                    where:{
+                        id: req.body.id_venta
+                    }
+                })
+                .then(venta => res.status(200).send('El registro se ha actualizado correctamente'))
+                .catch(error => res.status(500).send(error)) 
+            }
+        })
         .catch(error => res.status(400).send(error))
     },
 
