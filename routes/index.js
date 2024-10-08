@@ -114,6 +114,7 @@ module.exports = (app) => {
 
     //reportes de ventas
     router.get('/ventas/reporte/cierre', reportesVentasController.getCierre)
+    router.get('/ventas/reporte/total', reportesVentasController.getVentasTotales)
 
     //CARPETA DE SERVICIOS
     //clasificaciones
