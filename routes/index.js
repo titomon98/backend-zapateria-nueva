@@ -108,6 +108,7 @@ module.exports = (app) => {
     //ventas
     router.get('/ventas/list', ventasController.list);
     router.post('/ventas/create', ventasController.create);
+    router.post('/ventas/pay', ventasController.pay);
     router.put('/ventas/activate', ventasController.activate);
     router.put('/ventas/deactivate', ventasController.deactivate);
     router.get('/ventas/get', ventasController.get);
