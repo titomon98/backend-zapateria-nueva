@@ -273,7 +273,7 @@ module.exports = {
             total: req.body.total
         })
         .then(cobro => {
-            if (req.body.por_pagar == 0 ){
+            if (req.body.por_pagar === 0 || req.body.por_pagar === null ){
                 Ventas.update({
                     por_pagar: 0,
                     estado: 1
@@ -294,7 +294,10 @@ module.exports = {
                     }
                 })
                 .then(venta => res.status(200).send('El registro se ha actualizado correctamente'))
-                .catch(error => res.status(500).send(error)) 
+                .catch(error => {
+                    console.log(error)
+                    res.status(500).send(error)
+                }) 
             }
         })
         .catch(error => res.status(400).send(error))
